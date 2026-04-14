@@ -1,14 +1,18 @@
 import React from 'react';
-import { Button } from './components/ui/button';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Layout from './layout/Layout';
+import { RouteIndex } from './helpers/RouteName';
+import Index from './pages/Index';
 
 const App = () => {
   return (
-    <div>
-      <h1 class="text-3xl font-bold underline">
-        Hello world!
-        <Button>Shadcn UI Button </Button>
-      </h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path={RouteIndex} element={<Layout />}>
+          <Route index element={<Index />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 };
 
