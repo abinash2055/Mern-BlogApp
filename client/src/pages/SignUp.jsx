@@ -13,10 +13,14 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Card } from '@/components/ui/card';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { RouteSignIn } from '@/helpers/RouteName';
+import { getEnv } from '@/helpers/getEnv';
+import { showToast } from '@/helpers/showToast';
 
 const SignUp = () => {
+  const navigate = useNavigate();
+
   const formSchema = z
     .object({
       name: z.string().min(3, {
@@ -43,8 +47,27 @@ const SignUp = () => {
     },
   });
 
-  function onSubmit(values) {
-    console.log(values);
+  // Sign Up Button Function
+  async function onSubmit(values) {
+    try {
+      const response = await fetch(
+        `${getEnv('VITE_API_BASE_URL')}/auth/register`,
+        {
+          method: 'post',
+          headers: { 'Content-type': 'application/json' },
+          body: JSON.stringify(values),
+        },
+      );
+
+      const data = await response.json();
+      if (!response.ok) {
+        showToast('error', data.message);
+      }
+      navigate(RouteSignIn);
+      showToast('success', data.message);
+    } catch (error) {
+      showToast('error', error.message);
+    }
   }
 
   return (
@@ -101,7 +124,11 @@ const SignUp = () => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your password" {...field} />
+                      <Input
+                        type="password"
+                        placeholder="Enter your password"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -119,6 +146,7 @@ const SignUp = () => {
                     <FormLabel>Confirm Password</FormLabel>
                     <FormControl>
                       <Input
+                        type="password"
                         placeholder="Enter your password again"
                         {...field}
                       />
