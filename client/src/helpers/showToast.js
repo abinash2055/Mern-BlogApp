@@ -10,7 +10,6 @@ export const showToast = (type, message) => {
     draggable: true,
     progress: undefined,
     theme: 'light',
-    transition: Bounce,
   };
 
   if (type === 'success') {

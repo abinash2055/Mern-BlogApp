@@ -5,15 +5,15 @@ import bcryptjs from 'bcryptjs';
 export const Register = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
+
     const checkuser = await User.findOne({ email });
 
     if (checkuser) {
-      // If user already registered
-      next(handleError(409, 'User already registered...'));
+      return next(handleError(409, 'User already registered...'));
     }
 
     const hashedPassword = bcryptjs.hashSync(password);
-    // To register user
+
     const user = new User({
       name,
       email,
@@ -24,7 +24,7 @@ export const Register = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: 'Registration is Successfull...',
+      message: 'Registration is Successful...',
     });
   } catch (error) {
     next(handleError(500, error.message));
