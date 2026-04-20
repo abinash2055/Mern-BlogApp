@@ -50,7 +50,7 @@ const SignIn = () => {
 
       const data = await response.json();
       if (!response.ok) {
-        showToast('error', data.message);
+        return showToast('error', data.message);
       }
       navigate(RouteIndex);
       showToast('success', data.message);
@@ -109,7 +109,7 @@ const SignIn = () => {
             </div>
 
             <div className="mt-5">
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full cursor-pointer">
                 Sign In
               </Button>
               <div className="mt-5 text-sm flex justify-center items-center gap-2">
