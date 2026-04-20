@@ -61,7 +61,7 @@ const SignIn = () => {
 
   return (
     <div className="flex justify-center items-center h-screen w-screen">
-      <Card className="w-[400px] p-4">
+      <Card className="w-100 p-4">
         <h1 className="text-2xl font-bold text-center mb-5">
           Login Into Account
         </h1>
