@@ -1,3 +1,4 @@
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -8,19 +9,22 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import React from 'react';
+import { Card } from '@/components/ui/card';
+import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { Card } from '@/components/ui/card';
-import { Link } from 'react-router-dom';
-import { RouteSignUp } from '@/helpers/RouteName';
+import { RouteIndex, RouteSignUp } from '@/helpers/RouteName';
+import { showToast } from '@/helpers/showToast';
+import { getEnv } from '@/helpers/getEnv';
 
 const SignIn = () => {
+  const navigate = useNavigate();
+
   const formSchema = z.object({
     email: z.string().email(),
-    password: z.string().min(8, {
-      message: 'Password must be at least 8 characters long.',
+    password: z.string().min(3, {
+      message: 'Password field is required.',
     }),
   });
 
@@ -32,8 +36,27 @@ const SignIn = () => {
     },
   });
 
-  function onSubmit(values) {
-    console.log(values);
+  async function onSubmit(values) {
+    try {
+      const response = await fetch(
+        `${getEnv('VITE_API_BASE_URL')}/auth/login`,
+        {
+          method: 'post',
+          headers: { 'Content-type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify(values),
+        },
+      );
+
+      const data = await response.json();
+      if (!response.ok) {
+        showToast('error', data.message);
+      }
+      navigate(RouteIndex);
+      showToast('success', data.message);
+    } catch (error) {
+      showToast('error', error.message);
+    }
   }
 
   return (
