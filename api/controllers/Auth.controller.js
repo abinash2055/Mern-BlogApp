@@ -82,10 +82,12 @@ export const Login = async (req, res, next) => {
 
 export const GoogleLogin = async (req, res, next) => {
   try {
-    const { name, email, avatar } = req.body;
+    const { name, email, avatar, photoURL } = req.body;
 
     let user;
     user = await User.findOne({ email });
+
+    const profileImage = avatar || photoURL || '';
 
     if (!user) {
       const password = Math.random().toString();
@@ -93,10 +95,16 @@ export const GoogleLogin = async (req, res, next) => {
       const newUser = new User({
         name,
         email,
-        hashedPassword,
-        avatar,
+        password: hashedPassword,
+        avatar: profileImage,
       });
+
       user = await newUser.save();
+    } else {
+      if (!user.avatar && profileImage) {
+        user.avatar = profileImage;
+        await user.save();
+      }
     }
 
     const token = jwt.sign(
@@ -123,6 +131,24 @@ export const GoogleLogin = async (req, res, next) => {
       success: true,
       user: newUser,
       message: 'Login Successfull.....',
+    });
+  } catch (error) {
+    return next(handleError(500, error.message));
+  }
+};
+
+export const Logout = async (req, res, next) => {
+  try {
+    res.clearCookie('access_token', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+      path: '/',
+    });
+
+    res.status(200).json({
+      success: true,
+      message: 'Logout Successfull.....',
     });
   } catch (error) {
     return next(handleError(500, error.message));
