@@ -84,6 +84,7 @@ const SignUp = () => {
         <div className="border my-5 flex justify-center items-center">
           <span className="absolute bg-white text-sm">Or</span>
         </div>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             {/* Name */}

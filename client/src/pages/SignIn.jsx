@@ -17,8 +17,12 @@ import { useForm } from 'react-hook-form';
 import { RouteIndex, RouteSignUp } from '@/helpers/RouteName';
 import { showToast } from '@/helpers/showToast';
 import { getEnv } from '@/helpers/getEnv';
+import { useDispatch } from 'react-redux';
+import { setUser } from '@/redux/user/user.slice';
+import GoogleLogin from '@/components/GoogleLogin';
 
 const SignIn = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const formSchema = z.object({
@@ -52,6 +56,7 @@ const SignIn = () => {
       if (!response.ok) {
         return showToast('error', data.message);
       }
+      dispatch(setUser(data.user));
       navigate(RouteIndex);
       showToast('success', data.message);
     } catch (error) {
@@ -65,6 +70,14 @@ const SignIn = () => {
         <h1 className="text-2xl font-bold text-center mb-5">
           Login Into Account
         </h1>
+
+        <div>
+          <GoogleLogin />
+        </div>
+        <div className="border my-5 flex justify-center items-center">
+          <span className="absolute bg-white text-sm">Or</span>
+        </div>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             {/* Email */}
