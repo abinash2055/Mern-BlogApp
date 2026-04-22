@@ -6,11 +6,17 @@ import {
   RouteProfile,
   RouteSignIn,
   RouteSignUp,
+  RouteAddCategory,
+  RouteEditCategory,
+  RouteCategoryDetails,
 } from './helpers/RouteName';
 import Index from './pages/Index';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Profile from './pages/Profile';
+import AddCategory from './pages/category/AddCategory';
+import EditCategory from './pages/category/EditCategory';
+import CategoryDetails from './pages/category/CategoryDetails';
 
 const App = () => {
   return (
@@ -19,6 +25,10 @@ const App = () => {
         <Route path={RouteIndex} element={<Layout />}>
           <Route index element={<Index />} />
           <Route path={RouteProfile} element={<Profile />} />
+          {/* Category */}
+          <Route path={RouteAddCategory} element={<AddCategory />} />
+          <Route path={RouteCategoryDetails} element={<CategoryDetails />} />
+          <Route path={RouteEditCategory()} element={<EditCategory />} />
         </Route>
 
         <Route path={RouteSignIn} element={<SignIn />} />
