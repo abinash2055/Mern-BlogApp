@@ -51,7 +51,6 @@ const Profile = () => {
     bio: z.string().min(3, {
       message: 'Bio must be atleast 3 character long...',
     }),
-    password: z.string(),
   });
 
   const form = useForm({
@@ -80,9 +79,9 @@ const Profile = () => {
       formData.append('file', file);
       formData.append('data', JSON.stringify(values));
       const response = await fetch(
-        `${getEnv('VITE_API_BASE_URL')}/user/update-user/${userData.user._id}`,
+        `${getEnv('VITE_API_BASE_URL')}/user/update-user/${userData?.user?._id}`,
         {
-          method: 'post',
+          method: 'put',
           credentials: 'include',
           body: formData,
         },
@@ -100,7 +99,7 @@ const Profile = () => {
   }
 
   const handleFileSelection = (files) => {
-    const file = file[0];
+    const file = files[0];
     const preview = URL.createObjectURL(file);
     setFile(file);
     setFilePreview(preview);

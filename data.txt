@@ -1,0 +1,11 @@
+Admin
+    1. name: Blog Admin
+    2. email: admin@admin.com
+    3. password: 12345678
+    4. bio: Admin
+
+User 
+    1. name: Abinash Nath Pandey
+    2. email: abinashnathpandey@gmail.com
+    3. password: Google Login
+    4. bio: dfgdgdfg
