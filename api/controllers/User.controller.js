@@ -19,3 +19,10 @@ export const getUser = async (req, res, next) => {
     return next(handleError(500, error.message));
   }
 };
+
+export const updateUser = async (req, res, next) => {
+  try {
+  } catch (error) {
+    return next(handleError(500, error.message));
+  }
+};
