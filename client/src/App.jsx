@@ -25,6 +25,7 @@ const App = () => {
         <Route path={RouteIndex} element={<Layout />}>
           <Route index element={<Index />} />
           <Route path={RouteProfile} element={<Profile />} />
+
           {/* Category */}
           <Route path={RouteAddCategory} element={<AddCategory />} />
           <Route path={RouteCategoryDetails} element={<CategoryDetails />} />

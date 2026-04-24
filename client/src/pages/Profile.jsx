@@ -109,7 +109,7 @@ const Profile = () => {
 
   return (
     <div>
-      <Card className="max-w-screen-md mx-auto">
+      <Card className="max-w-3xl mx-auto">
         <CardContent>
           <div className="flex justify-center items-center mt-10">
             <Dropzone
