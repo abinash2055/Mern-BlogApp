@@ -37,6 +37,7 @@ export const updateUser = async (req, res, next) => {
       user.password = hashedPassword;
     }
 
+    // Uploading Image
     if (req.file?.path) {
       const uploadResult = await cloudinary.uploader
         .upload(req.file.path, {

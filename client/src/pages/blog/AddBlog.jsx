@@ -26,9 +26,14 @@ import {
 import { useFetch } from '@/hooks/useFetch';
 import Dropzone from 'react-dropzone';
 import Editor from '@/components/Editor';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { RouteBlog } from '@/helpers/RouteName';
 
 const AddBlog = () => {
-  // To fetch all category list
+  const navigate = useNavigate();
+  // To fetch all blog list
+  const user = useSelector((state) => state.user);
   const {
     data: categoryData,
     loading,
@@ -83,24 +88,37 @@ const AddBlog = () => {
 
   // Add Blog Button Function
   async function onSubmit(values) {
-    // try {
-    //   const response = await fetch(
-    //     `${getEnv('VITE_API_BASE_URL')}/category/add`,
-    //     {
-    //       method: 'post',
-    //       headers: { 'Content-type': 'application/json' },
-    //       body: JSON.stringify(values),
-    //     },
-    //   );
-    //   const data = await response.json();
-    //   if (!response.ok) {
-    //     return showToast('error', data.message);
-    //   }
-    //   form.reset();
-    //   showToast('success', data.message);
-    // } catch (error) {
-    //   showToast('error', error.message);
-    // }
+    try {
+      const newValues = { ...values, author: user.user._id };
+
+      if (!file) {
+        showToast('error', 'Featured Image required....');
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('data', JSON.stringify(newValues));
+
+      const response = await fetch(`${getEnv('VITE_API_BASE_URL')}/blog/add`, {
+        method: 'post',
+        credentials: 'include',
+        body: formData,
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        return showToast('error', data.message);
+      }
+
+      form.reset();
+      setFile();
+      setFilePreview();
+
+      navigate(RouteBlog);
+      showToast('success', data.message);
+    } catch (error) {
+      showToast('error', error.message);
+    }
   }
 
   const handleFileSelection = (files) => {
@@ -114,6 +132,7 @@ const AddBlog = () => {
     <div>
       <Card className="pt-5">
         <CardContent>
+          <h1 className="text-2xl font-bold mb-4">Add Blog</h1>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               {/* Category */}
