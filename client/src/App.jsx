@@ -9,6 +9,9 @@ import {
   RouteAddCategory,
   RouteEditCategory,
   RouteCategoryDetails,
+  RouteBlogAdd,
+  RouteBlog,
+  RouteBlogEdit,
 } from './helpers/RouteName';
 import Index from './pages/Index';
 import SignIn from './pages/SignIn';
@@ -17,6 +20,9 @@ import Profile from './pages/Profile';
 import AddCategory from './pages/category/AddCategory';
 import EditCategory from './pages/category/EditCategory';
 import CategoryDetails from './pages/category/CategoryDetails';
+import AddBlog from './pages/blog/AddBlog';
+import BlogDetails from './pages/blog/BlogDetails';
+import EditBlog from './pages/blog/EditBlog';
 
 const App = () => {
   return (
@@ -30,6 +36,11 @@ const App = () => {
           <Route path={RouteAddCategory} element={<AddCategory />} />
           <Route path={RouteCategoryDetails} element={<CategoryDetails />} />
           <Route path={RouteEditCategory()} element={<EditCategory />} />
+
+          {/* Blog */}
+          <Route path={RouteBlogAdd} element={<AddBlog />} />
+          <Route path={RouteBlog} element={<BlogDetails />} />
+          <Route path={RouteBlogEdit()} element={<EditBlog />} />
         </Route>
 
         <Route path={RouteSignIn} element={<SignIn />} />
