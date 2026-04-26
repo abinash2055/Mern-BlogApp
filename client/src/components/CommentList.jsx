@@ -22,16 +22,16 @@ const CommentList = ({ props }) => {
     <div>
       <h4 className="text-2xl font-bold">
         {props.newComment ? (
-          <span className="me-2">{data && data.comment.length + 1}</span>
+          <span className="me-2">{data && data.comments.length + 1}</span>
         ) : (
-          <span className="me-2">{data && data.comment.length}</span>
+          <span className="me-2">{data && data.comments.length}</span>
         )}
         Comments
       </h4>
       <div className="mt-5">
         {/* For New Comment  */}
         {props.newComment && (
-          <div className="flex gap-2">
+          <div className="flex gap-2 mb-3">
             <Avatar>
               <AvatarImage
                 src={user?.user?.avatar || usericon}
@@ -54,16 +54,16 @@ const CommentList = ({ props }) => {
           data.comments.length > 0 &&
           data.comments.map((comment) => {
             return (
-              <div key={comment._id} className="flex gap-2">
+              <div key={comment._id} className="flex gap-2 mb-3">
                 <Avatar>
                   <AvatarImage
-                    src={comment?.author.avatar || usericon}
+                    src={comment?.user.avatar || usericon}
                     alt="usericon"
                   />
                 </Avatar>
                 <div>
                   {/* Name  */}
-                  <p className="font-bold">{comment?.author.name}</p>
+                  <p className="font-bold">{comment?.user.name}</p>
                   {/* Date  */}
                   <p>{moment(comment?.createdAt).format('DD-MM-YYYY')}</p>
                   {/* Blog Comments */}
