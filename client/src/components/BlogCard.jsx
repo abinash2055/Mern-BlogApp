@@ -6,10 +6,11 @@ import { FaRegCalendarAlt } from 'react-icons/fa';
 import usericon from '@/assets/images/user.png';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import { RouteBlogDetails } from '@/helpers/RouteName';
 
 const BlogCard = ({ props }) => {
   return (
-    <Link>
+    <Link to={RouteBlogDetails(props.category.slug, props.slug)}>
       <Card className="pt-5">
         <CardContent>
           {/* Logo and Admin */}
@@ -21,7 +22,7 @@ const BlogCard = ({ props }) => {
               <span>{props.author.name}</span>
             </div>
             {props.author.role === 'admin' && (
-              <Badge variant="outline" className="bg-voilet-500">
+              <Badge variant="outline" className="bg-violet-500 text-white">
                 Admin
               </Badge>
             )}
